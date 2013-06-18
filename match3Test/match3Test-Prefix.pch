@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'match3Test' target in the 'match3Test' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
