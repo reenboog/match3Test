@@ -9,16 +9,10 @@
 #include "Node.h"
 
 Node::Node() {
-    init();
-}
-
-Node::~Node() {
-    cleanup();
-}
-
-
-Bool Node::init() {
     _pos = {0, 0};
+    _scaleX = _scaleY = 1.0;
+    _rotation = 0;
+    
     _active = true;
     _hidden = false;
     
@@ -26,8 +20,10 @@ Bool Node::init() {
     _z = 0;
     
     _parent = nullptr;
+}
 
-    return true;
+Node::~Node() {
+    cleanup();
 }
 
 void Node::cleanup() {
@@ -38,31 +34,41 @@ void Node::cleanup() {
     _children.clear();
 }
 
-void Node::visit(SDL_Surface *dst) {
+void Node::visit() {
     
     if(_hidden) {
         return;
     }
     
-    //let's keep all the children unsorted fo simplicity
+    glPushMatrix();
+    
+    applyTransform();
+    
+    if(!_children.empty()) {
+        _children[0]->visit();
+    }
+    
+//    //let's keep all the children unsorted fo simplicity
     for(Node *node: _children) {
         if(node->getZ() < 0) {
-            node->visit(dst);
+            node->visit();
         }
     }
     
-    render(dst);
+    render();
     
     //sorry, but too lazy to calculate the displaceent of the first positive element
     //let's leave this for another test
     for(Node *node: _children) {
         if(node->getZ() >= 0) {
-            node->visit(dst);
+            node->visit();
         }
     }
+    
+    glPopMatrix();
 }
 
-void Node::render(SDL_Surface *dst) {
+void Node::render() {
     //override me
 }
 
@@ -78,6 +84,12 @@ Bool Node::isChild(Node *child) {
     return find(_children.begin(), _children.end(), child) != _children.end();;
 }
 
+void Node::applyTransform() {
+    glTranslatef(_pos.x, _pos.y, 0.0);
+    glRotatef(_rotation, 0, 0, 1);
+    glScalef(_scaleX, _scaleY, 1.0);
+}
+
 Node* Node::getParent() {
     return _parent;
 }
@@ -85,15 +97,7 @@ Node* Node::getParent() {
 void Node::setParent(Node *newParent) {
     //assume we don't share any children wetween parents
     //to keep simplicity
-    if(_parent) {
-        _pos -= _parent->getPos();
-    }
-    
     _parent = newParent;
-    
-    if(newParent) {
-        _pos += newParent->getPos();
-    }
 }
 
 Bool Node::addChild(Node *child) {
@@ -136,19 +140,44 @@ Int Node::getZ() {
 
 void Node::setPos(Vector2 pos) {
     _pos = pos;
-    
-    if(_parent) {
-        _pos += _parent->getPos();
-    }
-    
-    //recalulate bounds
-    updateGeometry();
 }
 
 Vector2 Node::getPos() {
     return _pos;
 }
 
-void Node::updateGeometry() {
+void Node::setScaleX(Float scale) {
+    _scaleX = scale;
+}
+
+Float Node::getScaleX() {
+    return _scaleX;
+}
+
+void Node::setScaleY(Float scale) {
+    _scaleY = scale;
+}
+
+Float Node::getScaleY() {
+    return _scaleY;
+}
+
+void Node::setScale(Float scale) {
+    _scaleX = _scaleY = scale;
+}
+
+Float Node::getScale() {
+    if(_scaleX != _scaleY) {
+        printf("!Trying to get scale but scaleX != scaleY");
+    }
     
+    return _scaleX;
+}
+
+void Node::setRotation(Float rotation) {
+    _rotation = rotation;
+}
+
+Float Node::getRotation() {
+    return _rotation;
 }

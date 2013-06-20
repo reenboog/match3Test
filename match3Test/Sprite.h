@@ -14,24 +14,26 @@
 class Sprite: public Node {
 private:
     string _file;
-    SDL_Rect _rect;
-    SDL_Surface *_surface;
+    
+    GLuint _texture;
+
+    UV _uvCoords[4];
+    Size2 _size;
+    
 public:
     ~Sprite();
+    
     Sprite(string file);
-    Sprite(string file, SDL_Rect rect);
+    Sprite(string file, Int x, Int y, Int w, Int h);
 public:
-    virtual Bool init();
     virtual void cleanup();
     
-    virtual void render(SDL_Surface *dst);
+    virtual void render();
     virtual Bool update(Float dt);
     
-    virtual void updateGeometry();
-    
-    SDL_Rect getRect();
+    Size2 getSize();
 private:
-    void visit(SDL_Surface *dst);
+    void loadTexture(string file, Float x, Float y, Float width, Float height);
 };
 
 #endif /* defined(__match3Test__Sprite__) */

@@ -23,7 +23,7 @@ public:
     virtual Bool init();
     virtual void cleanup();
     
-    virtual void render(SDL_Surface *dst);
+    virtual void render();
     virtual Bool update(Float dt);
 
 };

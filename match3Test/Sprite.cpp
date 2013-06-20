@@ -7,7 +7,8 @@
 //
 
 #include "Sprite.h"
-#include "SurfaceManager.h"
+#include "TextureManager.h"
+#include "Types.h"
 
 Sprite::~Sprite() {
     //------------------------------------------------
@@ -15,56 +16,78 @@ Sprite::~Sprite() {
 }
 
 Sprite::Sprite(string file) {
+    
+    loadTexture(file, 0, 0, -1, -1);
+}
+
+Sprite::Sprite(string file, Int x, Int y, Int w, Int h) {
+    
+    loadTexture(file, x, y, w, h);
+}
+
+void Sprite::loadTexture(string file, Float x, Float y, Float width, Float height) {
     _file = file;
     
-    _surface = SurfaceManager::mngr()->surfaceByName(file);
-    _rect = {0, 0, (Uint16)_surface->w, (Uint16)_surface->h};
+    _texture = TextureManager::mngr()->textureByName(file);
     
-    init();
+    GLint tWidth;
+    GLint tHeight;
     
+    //get width and height
+    glBindTexture(GL_TEXTURE_2D, _texture);
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tWidth);
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &tHeight);
     
-    //------------------------------------------------
+    _size.w = (width == -1 ? tWidth : width);
+    _size.h = (height == -1 ? tHeight : height);
+    
+    _uvCoords[0] = {(x + _size.w) / tWidth, (y + _size.h) / tHeight};
+    _uvCoords[1] = {(x + _size.w) / tWidth, y / tHeight};
+    _uvCoords[2] = {x / tWidth, y / tHeight};
+    _uvCoords[3] = {x / tWidth, (y + _size.h) / tHeight};
+    
     printf("+sprite %s created. \n", _file.c_str());
 }
 
-Sprite::Sprite(string file, SDL_Rect rect) {
-    _file = file;
-    _rect = rect;
-    
-    _surface = SurfaceManager::mngr()->surfaceByName(file);
-    
-    init();
-}
-
-void Sprite::updateGeometry() {
-    Vector2 pos = getPos();
-
-    _rect.x = pos.x;
-    _rect.y = pos.y;
-}
-
-SDL_Rect Sprite::getRect() {
-    
-}
-
-Bool Sprite::init() {
-    return true;
+Size2 Sprite::getSize() {
+    return _size;
 }
 
 void Sprite::cleanup() {
     
 }
 
-void Sprite::render(SDL_Surface *dst) {
-    Node::render(dst);
+void Sprite::render() {
+    Node::render();
     
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, _texture);
     
+    Float hw = _size.w / 2.0;
+    Float hh = _size.h / 2.0;
     
-    //apply x and y
-    //SDL_SetAlpha(_surface, SDL_RLEACCEL | SDL_SRCALPHA,(Uint8) 10);
-    SDL_BlitSurface(_surface, nullptr, dst, &_rect);
+    glBegin(GL_QUADS);
+	
+	glTexCoord2f(_uvCoords[0].u, _uvCoords[0].v);
+	glVertex3f(hw, hh, 0.0f);
+    
+	glTexCoord2f(_uvCoords[1].u, _uvCoords[1].v);
+	glVertex3f(hw, -hh, 0.0f);
+    
+	glTexCoord2f(_uvCoords[2].u, _uvCoords[2].v);
+	glVertex3f(-hw, -hh, 0.0f);
+    
+	glTexCoord2f(_uvCoords[3].u, _uvCoords[3].v);
+	glVertex3f(-hw, hh, 0.0f);
+    
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
 }
 
 Bool Sprite::update(Float dt) {
     return true;
 }
+
+
+

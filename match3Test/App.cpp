@@ -7,11 +7,19 @@
 //
 
 #include "App.h"
-#include "SurfaceManager.h"
+#include "TextureManager.h"
+
+#include <OpenGL/OpenGL.h>
+#include <GLUT/GLUT.h>
+
+#include "GameScene.h"
+#include "Constants.h"
+
+#include <SDL_image/SDL_image.h>
 
 App::~App() {
     delete _scene;
-    delete SurfaceManager::mngr();
+    delete TextureManager::mngr();
 }
 
 App::App() {
@@ -45,9 +53,42 @@ Bool App::init() {
         return false;
     }
     
-    if((_mainSurface = SDL_SetVideoMode(755, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+    
+    SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE, 8);
+    
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
+    
+    if((_mainSurface = SDL_SetVideoMode(kScreenWidth, kScreenHeight, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL)) == nullptr) {
         return false;
     }
+    
+    glClearColor(0, 0, 0, 0);
+    
+    glViewport(0, 0, kScreenWidth, kScreenHeight);
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    
+    glOrtho(0, kScreenWidth, kScreenHeight, 0, 1, -1);
+    
+    glMatrixMode(GL_MODELVIEW);
+    
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    
+    glLoadIdentity();
     
     _scene = new GameScene();
     _scene->init();
@@ -67,9 +108,13 @@ void App::loop() {
 }
 
 void App::render() {
-    _scene->visit(_mainSurface);
     
-    SDL_Flip(_mainSurface);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    
+    _scene->visit();
+    
+    SDL_GL_SwapBuffers();
 }
 
 void App::cleanup() {

@@ -9,12 +9,18 @@
 #ifndef __kingTest__Node__
 #define __kingTest__Node__
 
-#include <SDL/SDL.h>
 #include "Types.h"
+
+#include <OpenGL/OpenGL.h>
+#include <GLUT/GLUT.h>
 
 class Node {
 private:
     Vector2 _pos;
+    Float _scaleX;
+    Float _scaleY;
+    Float _rotation;
+    
     Bool _active;
     Bool _hidden;
     
@@ -26,15 +32,16 @@ private:
 private:
     void reorderChildren();
     Bool isChild(Node *child);
+protected:
+    void applyTransform();
 public:
     Node();
     virtual ~Node();
 public:
-    virtual Bool init();
     virtual void cleanup();
     
-    void visit(SDL_Surface *dst);
-    virtual void render(SDL_Surface *dst);
+    void visit();
+    virtual void render();
     virtual Bool update(Float dt);
     //
     Node* getParent();
@@ -49,7 +56,17 @@ public:
     void setPos(Vector2 pos);
     Vector2 getPos();
     
-    virtual void updateGeometry();
+    void setScaleX(Float scale);
+    Float getScaleX();
+    
+    void setScaleY(Float scale);
+    Float getScaleY();
+    
+    void setScale(Float scale);
+    Float getScale();
+    
+    void setRotation(Float rotation);
+    Float getRotation();
 };
 
 #endif /* defined(__kingTest__Node__) */

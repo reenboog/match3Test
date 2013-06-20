@@ -13,6 +13,8 @@
 #include <string>
 #include <map>
 
+#include <OpenGL/OpenGL.h>
+
 using namespace std;
 
 typedef char Char;
@@ -24,7 +26,7 @@ typedef double Double;
 class Node;
 
 typedef vector<Node *> NodePool;
-typedef map<string, SDL_Surface *> SurfaceMap;
+typedef map<string, GLuint> TextureMap;
 
 struct Vector2 {
     Int x, y;
@@ -66,8 +68,11 @@ struct Size2 {
 };
 
 struct Rect4 {
-    Vector2 pos;
-    Size2 size;
+    Float x, y, w, h;
+};
+    
+struct UV {
+    Float u, v;
 };
 
 #endif

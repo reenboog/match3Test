@@ -10,8 +10,10 @@
 #define __kingTest__App__
 
 #include <SDL/SDL.h>
+
 #include "Types.h"
-#include "GameScene.h"
+
+class GameScene;
 
 class App {
 private:

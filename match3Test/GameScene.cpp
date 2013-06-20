@@ -19,27 +19,33 @@ GameScene::~GameScene() {
 }
 
 Bool GameScene::init() {
-    Node::init();
+    _back = new Sprite("back.png");
+    _back->setPos(v2(755 / 2, 300));
+    _back->setRotation(0);
         
-//    SDL_Surface *tmp = NULL;
-//    
-//    if((tmp = IMG_Load("img0.png")) == NULL) {
-//        printf("error loading mage.");
-//        return false;
-//    }
-//    
-//    _tmp = SDL_DisplayFormat(tmp);
-//    SDL_FreeSurface(tmp);
-    
-    _back = new Sprite("back.jpg");
-    //_back->setPos(v2(10, 10));
-    
-    Sprite *t = new Sprite("img0.png");
-    _back ->addChild(t);
-    
-    t->setPos(v2(20, 100));
-    
     this->addChild(_back);
+    
+    Sprite *stone = nullptr;
+
+    stone = new Sprite("stones.png", 0, 0, 35, 35);
+    stone->setPos({100, 100});
+    _back->addChild(stone);
+    
+    stone = new Sprite("stones.png", 36, 0, 35, 35);
+    stone->setPos({200, 100});
+    _back->addChild(stone);
+    
+    stone = new Sprite("stones.png", 72, 0, 35, 35);
+    stone->setPos({300, 100});
+    _back->addChild(stone);
+    
+    stone = new Sprite("stones.png", 0, 36, 35, 35);
+    stone->setPos({100, 200});
+    _back->addChild(stone);
+    
+    stone = new Sprite("stones.png", 0, 72, 35, 35);
+    stone->setPos({100, 300});
+    _back->addChild(stone);
     
     return true;
 }
@@ -48,8 +54,8 @@ void GameScene::cleanup() {
     Node:Node::cleanup();
 }
 
-void GameScene::render(SDL_Surface *dst) {
-    Node::render(dst);
+void GameScene::render() {
+    Node::render();
 }
 
 Bool GameScene::update(Float dt) {
