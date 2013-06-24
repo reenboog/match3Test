@@ -7,3 +7,16 @@
 //
 
 #include "Chip.h"
+
+Chip::Chip() {
+    
+}
+
+Chip::~Chip() {
+    
+}
+
+ChipType Chip::getType() {
+    return _type;
+}
+

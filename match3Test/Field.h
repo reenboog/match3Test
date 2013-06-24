@@ -10,9 +10,16 @@
 #define __match3Test__Field__
 
 #include "Types.h"
+#include "Node.h"
+#include "Chip.h"
 
-class Field {
-    
+typedef vector<Chip *> ChipVector;
+
+class Field: public Node {
+private:
+    ChipVector _chips;
+public:
+    Field();
 };
 
 #endif /* defined(__match3Test__Field__) */

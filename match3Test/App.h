@@ -22,6 +22,11 @@ private:
     
     GameScene *_scene;
     
+    Uint32 _oldTime;
+    Uint32 _currentTime;
+
+    Bool _leftMouseDown;
+    
 public:
     App();
     ~App();
@@ -31,7 +36,7 @@ public:
     
     Bool init();
     void onEvent(SDL_Event *event);
-    void loop();
+    void loop(Float dt);
     void render();
     void cleanup();
 };

@@ -31,7 +31,7 @@ Bool GameScene::init() {
     stone->setPos({100, 100});
     _back->addChild(stone);
     
-    stone = new Sprite("stones.png", 36, 0, 35, 35);
+    stone = new Sprite("stones.png", 36, 0, 34, 35);
     stone->setPos({200, 100});
     _back->addChild(stone);
     
@@ -62,4 +62,20 @@ Bool GameScene::update(Float dt) {
     Node::update(dt);
     
     return true;
+}
+
+void GameScene::onLeftMouseDown(Int x, Int y) {
+    printf("left btn down: x %i, y %i\n", x, y);
+}
+
+void GameScene::onLeftMouseUp(Int x, Int y) {
+    printf("left btn up: x %i, y %i\n", x, y);
+}
+
+void GameScene::onLeftMouseDragged(Int x, Int y) {
+    printf("left btn dragged: x %i, y %i\n", x, y);
+}
+
+void GameScene::onMouseMove(Int x, Int y) {
+    printf("left btn moved: x %i, y %i\n", x, y);
 }

@@ -23,8 +23,13 @@ App::~App() {
 }
 
 App::App() {
-    _mainSurface = NULL;
+    _mainSurface = nullptr;
     _running = true;
+    _leftMouseDown = false;
+    _scene = nullptr;
+    
+    _oldTime = 0;
+    _currentTime = 0;
 }
 
 Int App::run() {
@@ -34,12 +39,19 @@ Int App::run() {
     
     SDL_Event event;
     
+    _currentTime = SDL_GetTicks();
+    
     while(_running) {
+        _oldTime = _currentTime;
+        _currentTime = SDL_GetTicks();
+        
+        Float dt = (_currentTime - _oldTime) / 1000.0f;
+        
         while(SDL_PollEvent(&event)) {
             onEvent(&event);
         }
         
-        loop();
+        loop(dt);
         render();
     }
     
@@ -99,11 +111,30 @@ Bool App::init() {
 void App::onEvent(SDL_Event *event) {
     if(event->type == SDL_QUIT) {
         _running = false;
+    } else if(event->type == SDL_MOUSEBUTTONDOWN) {
+        if(event->button.button == SDL_BUTTON_LEFT) {
+            _leftMouseDown = true;
+            _scene->onLeftMouseDown(event->button.x, event->button.y);
+        } else {
+            //right button is down
+        }
+    } else if(event->type == SDL_MOUSEBUTTONUP) {
+        if(event->button.button == SDL_BUTTON_LEFT) {
+            _leftMouseDown = false;
+            _scene->onLeftMouseUp(event->button.x, event->button.y);
+        } else {
+            //right button is up
+        }
+    } else if(event->type == SDL_MOUSEMOTION) {
+        if(_leftMouseDown) {
+            _scene->onLeftMouseDragged(event->motion.x, event->motion.y);
+        } else {
+            _scene->onMouseMove(event->motion.x, event->motion.y);
+        }
     }
 }
 
-void App::loop() {
-    Float dt = 0; //todo: get some time here
+void App::loop(Float dt) {
     _scene->update(dt);
 }
 

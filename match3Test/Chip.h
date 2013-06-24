@@ -12,7 +12,13 @@
 #include "Types.h"
 
 class Chip {
+private:
+    ChipType _type;
+public:
+    Chip();
+    ~Chip();
     
+    ChipType getType();
 };
 
 #endif /* defined(__match3Test__Chip__) */

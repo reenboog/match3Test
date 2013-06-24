@@ -25,7 +25,12 @@ public:
     
     virtual void render();
     virtual Bool update(Float dt);
-
+    
+    //mouse stuff
+    void onLeftMouseDown(Int x, Int y);
+    void onLeftMouseUp(Int x, Int y);
+    void onLeftMouseDragged(Int x, Int y);
+    void onMouseMove(Int x, Int y);
 };
 
 #endif /* defined(__kingTest__GameScene__) */

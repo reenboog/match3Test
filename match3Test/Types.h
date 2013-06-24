@@ -28,6 +28,14 @@ class Node;
 typedef vector<Node *> NodePool;
 typedef map<string, GLuint> TextureMap;
 
+enum ChipType {
+    CT_Red,
+    CT_Green,
+    CT_Blue,
+    CT_Yellow,
+    CT_Pink
+};
+
 struct Vector2 {
     Int x, y;
     
