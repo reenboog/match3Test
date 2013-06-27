@@ -10,10 +10,10 @@
 		B807F942177224D300067F80 /* stones.png in Resources */ = {isa = PBXBuildFile; fileRef = B807F941177224D300067F80 /* stones.png */; };
 		B80C8F441778765900F2C784 /* chipSelection.png in Resources */ = {isa = PBXBuildFile; fileRef = B80C8F431778765800F2C784 /* chipSelection.png */; };
 		B81B8F181771D3F20079E82D /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = B81B8F171771D3F20079E82D /* back.png */; };
-		B84C6B19177C2F19005D9F03 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B84C6B17177C2F19005D9F03 /* Label.cpp */; };
 		B84C6B1B177C316A005D9F03 /* mainFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B84C6B1A177C316A005D9F03 /* mainFont.ttf */; };
 		B84C6B1D177C31CD005D9F03 /* SDL_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84C6B1C177C31CD005D9F03 /* SDL_ttf.framework */; };
 		B84C6B1E177C48A9005D9F03 /* SDL_ttf.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = B84C6B1C177C31CD005D9F03 /* SDL_ttf.framework */; };
+		B84C6B21177C5287005D9F03 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B84C6B1F177C5287005D9F03 /* Label.cpp */; };
 		B860AB03177B39750040E16C /* SoundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B860AB01177B39750040E16C /* SoundManager.cpp */; };
 		B860AB07177B3BB00040E16C /* btnClick.wav in Resources */ = {isa = PBXBuildFile; fileRef = B860AB06177B3BB00040E16C /* btnClick.wav */; };
 		B860AB09177B3BC00040E16C /* lvlComplete.wav in Resources */ = {isa = PBXBuildFile; fileRef = B860AB08177B3BC00040E16C /* lvlComplete.wav */; };
@@ -66,10 +66,10 @@
 		B80C8F431778765800F2C784 /* chipSelection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chipSelection.png; sourceTree = "<group>"; };
 		B81B8F161771CF4D0079E82D /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B81B8F171771D3F20079E82D /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
-		B84C6B17177C2F19005D9F03 /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Label.cpp; path = ../Label.cpp; sourceTree = "<group>"; };
-		B84C6B18177C2F19005D9F03 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = ../Label.h; sourceTree = "<group>"; };
 		B84C6B1A177C316A005D9F03 /* mainFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mainFont.ttf; sourceTree = "<group>"; };
 		B84C6B1C177C31CD005D9F03 /* SDL_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL_ttf.framework; sourceTree = "<group>"; };
+		B84C6B1F177C5287005D9F03 /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Label.cpp; sourceTree = "<group>"; };
+		B84C6B20177C5287005D9F03 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
 		B860AB01177B39750040E16C /* SoundManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundManager.cpp; sourceTree = "<group>"; };
 		B860AB02177B39750040E16C /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		B860AB06177B3BB00040E16C /* btnClick.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = btnClick.wav; sourceTree = "<group>"; };
@@ -192,8 +192,8 @@
 				B8D409F31772D2EA00E00EE7 /* Chip.h */,
 				B8F1BE581770715100A504B5 /* Sprite.cpp */,
 				B8F1BE591770715100A504B5 /* Sprite.h */,
-				B84C6B17177C2F19005D9F03 /* Label.cpp */,
-				B84C6B18177C2F19005D9F03 /* Label.h */,
+				B84C6B1F177C5287005D9F03 /* Label.cpp */,
+				B84C6B20177C5287005D9F03 /* Label.h */,
 				B8F1BE741770A1F200A504B5 /* TextureManager.cpp */,
 				B8F1BE751770A1F200A504B5 /* TextureManager.h */,
 				B8F1BE4A177065AE00A504B5 /* Node.cpp */,
@@ -323,7 +323,7 @@
 				B8D409F11772D24600E00EE7 /* Field.cpp in Sources */,
 				B8D409F41772D2EA00E00EE7 /* Chip.cpp in Sources */,
 				B860AB03177B39750040E16C /* SoundManager.cpp in Sources */,
-				B84C6B19177C2F19005D9F03 /* Label.cpp in Sources */,
+				B84C6B21177C5287005D9F03 /* Label.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
