@@ -11,14 +11,23 @@
 
 #include "Node.h"
 
+// assume we have this vertex order:
+// 3---2
+// |   |
+// 4---1
+
 class Sprite: public Node {
-private:
+protected:
     string _file;
     
     GLuint _texture;
 
     UV _uvCoords[4];
     Size2 _size;
+    
+    Vector2 _anchorPoint;
+protected:
+    Sprite();
     
 public:
     ~Sprite();
@@ -30,6 +39,15 @@ public:
     
     virtual void render();
     virtual Bool update(Float dt);
+    
+    // set up uv-coords of 2 diagonal corners:
+    // 1---
+    // |   |
+    //  ---2
+    void setUV(Float u0, Float v0, Float u1, Float v1);
+    
+    Vector2 getAnchorPoint();
+    void setAnchorPoint(Vector2 anchor);
     
     Size2 getSize();
 private:

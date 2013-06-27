@@ -40,7 +40,8 @@ public:
 public:
     virtual void cleanup();
     
-    void visit();
+    void loop(Float dt);
+    virtual void visit();
     virtual void render();
     virtual Bool update(Float dt);
     //
@@ -48,10 +49,18 @@ public:
     void setParent(Node *parent);
     
     Bool addChild(Node *child);
-    Bool removeChild(Node *child);
+
+    Bool removeChild(Node *child, Bool kill = true);
+    
+    Bool removeFromParent(Bool die = true);
+    
+    void removeAllChildren(Bool killAll = true);
     //
     void setZ(Int z);
     Int getZ();
+    
+    Bool isHidden();
+    void setHidden(Bool hidden);
     
     void setPos(Vector2 pos);
     Vector2 getPos();

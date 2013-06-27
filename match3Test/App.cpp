@@ -8,6 +8,7 @@
 
 #include "App.h"
 #include "TextureManager.h"
+#include "SoundManager.h"
 
 #include <OpenGL/OpenGL.h>
 #include <GLUT/GLUT.h>
@@ -16,10 +17,14 @@
 #include "Constants.h"
 
 #include <SDL_image/SDL_image.h>
+#include <SDL_ttf/SDL_ttf.h>
 
 App::~App() {
     delete _scene;
     delete TextureManager::mngr();
+    delete SoundManager::mngr();
+    
+    TTF_Quit();
 }
 
 App::App() {
@@ -64,6 +69,8 @@ Bool App::init() {
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         return false;
     }
+    
+    TTF_Init();
     
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -111,7 +118,12 @@ Bool App::init() {
 void App::onEvent(SDL_Event *event) {
     if(event->type == SDL_QUIT) {
         _running = false;
-    } else if(event->type == SDL_MOUSEBUTTONDOWN) {
+    } else if(event->type == SDL_KEYUP) {
+        if(event->key.keysym.sym == SDLK_r) {
+            _scene->restart();
+        }
+    }
+    else if(event->type == SDL_MOUSEBUTTONDOWN) {
         if(event->button.button == SDL_BUTTON_LEFT) {
             _leftMouseDown = true;
             _scene->onLeftMouseDown(event->button.x, event->button.y);
@@ -135,7 +147,7 @@ void App::onEvent(SDL_Event *event) {
 }
 
 void App::loop(Float dt) {
-    _scene->update(dt);
+    _scene->loop(dt);
 }
 
 void App::render() {

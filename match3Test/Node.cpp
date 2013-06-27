@@ -44,9 +44,9 @@ void Node::visit() {
     
     applyTransform();
     
-    if(!_children.empty()) {
-        _children[0]->visit();
-    }
+//    if(!_children.empty()) {
+//        _children[0]->visit();
+//    }
     
 //    //let's keep all the children unsorted fo simplicity
     for(Node *node: _children) {
@@ -54,7 +54,7 @@ void Node::visit() {
             node->visit();
         }
     }
-    
+        
     render();
     
     //sorry, but too lazy to calculate the displaceent of the first positive element
@@ -72,12 +72,23 @@ void Node::render() {
     //override me
 }
 
+void Node::loop(Float dt) {
+    for(Node *node: _children) {
+        node->loop(dt);
+    }
+    
+    update(dt);
+}
+
 Bool Node::update(Float dt) {
     return true;
 }
 
 void Node::reorderChildren() {
-    //?
+    sort(_children.begin(), _children.end(),
+         [](Node *a, Node *b) {
+             return a->getZ() < b->getZ();
+         });
 }
 
 Bool Node::isChild(Node *child) {
@@ -108,34 +119,68 @@ Bool Node::addChild(Node *child) {
     
     _children.push_back(child);
     child->setParent(this);
+    
+    reorderChildren();
         
     return true;
 }
 
-Bool Node::removeChild(Node *child) {
+Bool Node::removeChild(Node *child, Bool kill) {
     if(!isChild(child)) {
         return false;
     }
     
-    child->setParent(NULL);
+    child->setParent(nullptr);
     
     auto it = find(_children.begin(), _children.end(), child);
     
     _children.erase(it);
     
-    delete child;
-    
+    if(kill) {
+        delete child;
+    }
+
     return true;
+}
+
+void Node::removeAllChildren(bool killAll) {
+    for(Node *child: _children) {
+        child->setParent(nullptr);
+
+        if(killAll) {
+            delete child;
+        }
+    }
+    
+    _children.clear();
+}
+
+Bool Node::removeFromParent(Bool die) {
+    if(_parent) {
+        return _parent->removeChild(this, die);
+    } else {
+        return false;
+    }
 }
 
 void Node::setZ(Int z) {
     _z = z;
     
-    //reorder
+    if(_parent) {
+        _parent->reorderChildren();
+    }
 }
 
 Int Node::getZ() {
     return _z;
+}
+
+Bool Node::isHidden() {
+    return _hidden;
+}
+
+void Node::setHidden(Bool hidden) {
+    _hidden = hidden;
 }
 
 void Node::setPos(Vector2 pos) {

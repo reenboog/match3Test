@@ -25,9 +25,6 @@ typedef double Double;
 
 class Node;
 
-typedef vector<Node *> NodePool;
-typedef map<string, GLuint> TextureMap;
-
 enum ChipType {
     CT_Red,
     CT_Green,
@@ -36,8 +33,15 @@ enum ChipType {
     CT_Pink
 };
 
+enum ChipState {
+    CS_Init,
+    CS_Normal,
+    CS_Dying,
+    CS_Dead
+};
+
 struct Vector2 {
-    Int x, y;
+    Float x, y;
     
     Bool operator == (const Vector2 &r) {
         return x == r.x && y == r.y;
@@ -69,7 +73,21 @@ struct Vector2 {
     }
 };
     
-#define v2(x, y) (Vector2{x, y})
+typedef vector<Node *> NodePool;
+typedef map<string, GLuint> TextureMap;
+typedef vector<Vector2> Vec2Collection;
+    
+#define v2(x, y) (Vector2{(Float)x, (Float)y})
+
+inline Float cut(Float num, Float min, Float max) {
+    if(num < min)
+    {
+        num = min;
+    } else if(num > max) {
+        num = max;
+    }
+    return num;
+}
 
 struct Size2 {
     Int w, h;
@@ -81,6 +99,11 @@ struct Rect4 {
     
 struct UV {
     Float u, v;
+};
+    
+struct UVRect {
+    UV _0;
+    UV _1;
 };
 
 #endif
