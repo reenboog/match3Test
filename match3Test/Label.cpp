@@ -26,7 +26,7 @@ Label::Label(string text, Int size, SDL_Color color, string file) {
 
 void Label::setText(string text) {
     
-    if(_texture == -1) {
+    if(_texture != -1) {
         glDeleteTextures(1, &_texture);
     }
 
